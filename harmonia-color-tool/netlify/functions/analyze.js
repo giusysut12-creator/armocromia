@@ -44,15 +44,24 @@ exports.handler = async function(event) {
     return { statusCode: 405, headers: cors, body: 'Method Not Allowed' };
   }
 
-  let imageBase64, mimeType, apiKey;
-  try {
-    ({ imageBase64, mimeType, apiKey } = JSON.parse(event.body));
-  } catch (e) {
-    return { statusCode: 400, headers: cors, body: JSON.stringify({ error: 'Invalid request body' }) };
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) {
+    return {
+      statusCode: 500,
+      headers: { ...cors, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ error: 'API key non configurata sul server.' })
+    };
   }
 
-  if (!apiKey || !imageBase64 || !mimeType) {
-    return { statusCode: 400, headers: cors, body: JSON.stringify({ error: 'Missing required fields' }) };
+  let imageBase64, mimeType;
+  try {
+    ({ imageBase64, mimeType } = JSON.parse(event.body));
+  } catch (e) {
+    return { statusCode: 400, headers: cors, body: JSON.stringify({ error: 'Richiesta non valida.' }) };
+  }
+
+  if (!imageBase64 || !mimeType) {
+    return { statusCode: 400, headers: cors, body: JSON.stringify({ error: 'Immagine mancante.' }) };
   }
 
   try {

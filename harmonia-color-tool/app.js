@@ -1,48 +1,42 @@
 let currentImageBase64 = null;
-let currentMimeType = null;
-let currentResults = null;
-let tooltipTimeout = null;
-let confettiAnimFrame = null;
+let currentMimeType    = null;
+let currentResults     = null;
+let tooltipTimeout     = null;
+let confettiAnimFrame  = null;
 
 const $ = id => document.getElementById(id);
 
-const dropZone        = $('drop-zone');
-const fileInput       = $('file-input');
-const dropContent     = $('drop-zone-content');
-const dropPreview     = $('drop-zone-preview');
-const previewImg      = $('preview-img');
-const analyzeBtn      = $('analyze-btn');
-const uploadSection   = $('upload-section');
-const loaderSection   = $('loader-section');
-const resultsSection  = $('results-section');
-const resetBtn        = $('reset-btn');
-const downloadBtn     = $('download-palette-btn');
-const toastContainer  = $('toast-container');
-const tooltip         = $('color-tooltip');
-const tooltipSwatch   = $('tooltip-swatch');
-const tooltipName     = $('tooltip-name');
-const tooltipHex      = $('tooltip-hex');
-const tooltipUso      = $('tooltip-uso');
-const confettiCanvas  = $('confetti-canvas');
-const changePhotoBtn  = $('change-photo-btn');
-const apiModal        = $('api-modal');
-const apiKeyInput     = $('api-key-input');
-const saveApiKeyBtn   = $('save-api-key');
-const toggleKeyVis    = $('toggle-key-visibility');
-const openSettingsBtn = $('open-settings');
-const toggleSeasonsBtn= $('toggle-seasons');
-const seasonsPanel    = $('seasons-panel');
-const resultBadge     = $('result-season-badge');
-const resultUndertone = $('result-undertone');
-const resultDesc      = $('result-description');
-const resultCharacs   = $('result-characteristics');
-const resultPalette   = $('result-palette');
-const resultAvoid     = $('result-avoid');
-const resultStyle     = $('result-style');
-const resultCelebs    = $('result-celebrities');
+const dropZone       = $('drop-zone');
+const fileInput      = $('file-input');
+const dropContent    = $('drop-zone-content');
+const dropPreview    = $('drop-zone-preview');
+const previewImg     = $('preview-img');
+const analyzeBtn     = $('analyze-btn');
+const uploadSection  = $('upload-section');
+const loaderSection  = $('loader-section');
+const resultsSection = $('results-section');
+const resetBtn       = $('reset-btn');
+const downloadBtn    = $('download-palette-btn');
+const toastContainer = $('toast-container');
+const tooltip        = $('color-tooltip');
+const tooltipSwatch  = $('tooltip-swatch');
+const tooltipName    = $('tooltip-name');
+const tooltipHex     = $('tooltip-hex');
+const tooltipUso     = $('tooltip-uso');
+const confettiCanvas = $('confetti-canvas');
+const changePhotoBtn = $('change-photo-btn');
+const toggleSeasonsBtn = $('toggle-seasons');
+const seasonsPanel     = $('seasons-panel');
+const resultBadge    = $('result-season-badge');
+const resultUndertone= $('result-undertone');
+const resultDesc     = $('result-description');
+const resultCharacs  = $('result-characteristics');
+const resultPalette  = $('result-palette');
+const resultAvoid    = $('result-avoid');
+const resultStyle    = $('result-style');
+const resultCelebs   = $('result-celebrities');
 
 function init() {
-  if (!hasApiKey()) showApiModal();
   startUploadPulse();
   bindEvents();
 }
@@ -58,24 +52,12 @@ function bindEvents() {
   analyzeBtn.addEventListener('click', handleAnalyze);
   resetBtn.addEventListener('click', handleReset);
   downloadBtn.addEventListener('click', handleDownloadPalette);
-  saveApiKeyBtn.addEventListener('click', handleSaveApiKey);
-  apiKeyInput.addEventListener('keydown', e => { if(e.key==='Enter') handleSaveApiKey(); });
-  toggleKeyVis.addEventListener('click', () => { apiKeyInput.type = apiKeyInput.type==='password' ? 'text' : 'password'; });
-  openSettingsBtn.addEventListener('click', showApiModal);
   toggleSeasonsBtn.addEventListener('click', () => {
     const open = toggleSeasonsBtn.getAttribute('aria-expanded')==='true';
     toggleSeasonsBtn.setAttribute('aria-expanded', String(!open));
     seasonsPanel.classList.toggle('hidden');
   });
   window.addEventListener('scroll', hideTooltip, { passive: true });
-}
-
-function showApiModal() { apiKeyInput.value=getStoredApiKey(); apiModal.classList.remove('hidden'); setTimeout(()=>apiKeyInput.focus(),100); }
-function hideApiModal() { apiModal.classList.add('hidden'); }
-function handleSaveApiKey() {
-  const key = apiKeyInput.value.trim();
-  if (!key||key.length<20) { showToast('Inserisci una API key valida (inizia con sk-ant-)','error'); return; }
-  saveApiKey(key); hideApiModal(); showToast('API key salvata con successo','success');
 }
 
 function handleDropZoneClick() { if (!dropPreview.classList.contains('hidden')) return; fileInput.click(); }
@@ -123,7 +105,6 @@ function stopUploadPulse()  { dropZone.classList.remove('pulse'); }
 
 async function handleAnalyze() {
   if (!currentImageBase64) { showToast('Carica prima una foto del tuo viso.','info'); return; }
-  if (!hasApiKey()) { showApiModal(); return; }
   uploadSection.classList.add('hidden');
   loaderSection.classList.remove('hidden');
   resultsSection.classList.add('hidden');
@@ -136,15 +117,14 @@ async function handleAnalyze() {
   } catch(err) {
     loaderSection.classList.add('hidden');
     uploadSection.classList.remove('hidden');
-    if (err.message==='API_KEY_MISSING') showApiModal();
-    else showToast(err.message||'Errore imprevisto. Riprova.','error');
+    showToast(err.message||'Errore imprevisto. Riprova.','error');
   }
 }
 
 function renderResults(data) {
-  resultBadge.textContent     = data.stagione||'—';
-  resultUndertone.textContent = `Sottotono ${data.sottotono||''}`;
-  resultDesc.textContent      = data.descrizione||'';
+  resultBadge.textContent      = data.stagione||'—';
+  resultUndertone.textContent  = `Sottotono ${data.sottotono||''}`;
+  resultDesc.textContent       = data.descrizione||'';
   resultCharacs.innerHTML=''; (data.caratteristiche||[]).forEach(c=>{ const t=document.createElement('span'); t.className='char-tag'; t.textContent=c; resultCharacs.appendChild(t); });
   resultPalette.innerHTML=''; (data.palette_consigliata||[]).slice(0,8).forEach(c=>resultPalette.appendChild(mkSwatch(c,'palette')));
   resultAvoid.innerHTML='';   (data.colori_da_evitare||[]).slice(0,4).forEach(c=>resultAvoid.appendChild(mkSwatch(c,'avoid')));
@@ -220,10 +200,8 @@ function handleDownloadPalette() {
 }
 
 function rrFill(ctx,x,y,w,h,r,color) {
-  const ra=Array.isArray(r)?r:[r,r,r,r];
-  const [tl,tr,br,bl]=ra;
-  ctx.fillStyle=color;
-  ctx.beginPath();
+  const ra=Array.isArray(r)?r:[r,r,r,r]; const [tl,tr,br,bl]=ra;
+  ctx.fillStyle=color; ctx.beginPath();
   ctx.moveTo(x+tl,y); ctx.lineTo(x+w-tr,y); ctx.quadraticCurveTo(x+w,y,x+w,y+tr);
   ctx.lineTo(x+w,y+h-br); ctx.quadraticCurveTo(x+w,y+h,x+w-br,y+h);
   ctx.lineTo(x+bl,y+h); ctx.quadraticCurveTo(x,y+h,x,y+h-bl);
