@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Harmonia – Il tuo colore è la tua firma</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- CONFETTI CANVAS -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- API KEY MODAL -->
+  <div id="api-modal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <div class="modal-icon">🔑</div>
+      <h2 class="modal-title">Configura la tua API Key</h2>
+      <p class="modal-desc">
+        Per analizzare i colori, Harmonia utilizza l'intelligenza artificiale di Anthropic Claude.
+        La tua chiave viene salvata <strong>solo nel tuo browser</strong> e non viene mai trasmessa a server terzi.
+      </p>
+      <div class="input-group">
+        <label for="api-key-input">Anthropic API Key</label>
+        <input type="password" id="api-key-input" placeholder="sk-ant-api03-..." autocomplete="off" spellcheck="false" />
+        <button class="toggle-visibility" id="toggle-key-visibility" type="button" aria-label="Mostra/nascondi chiave">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+          </svg>
+        </button>
+      </div>
+      <a href="https://console.anthropic.com" target="_blank" rel="noopener" class="api-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+          <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+        </svg>
+        Ottieni la tua API key su console.anthropic.com
+      </a>
+      <button class="btn-primary btn-full" id="save-api-key">Salva e continua</button>
+    </div>
+  </div>
+
+  <!-- MAIN APP -->
+  <div class="app-container">
+
+    <header class="site-header">
+      <div class="header-top">
+        <div class="logo-area">
+          <div class="logo-mark">H</div>
+          <div>
+            <h1 class="site-title">Harmonia</h1>
+            <p class="site-tagline">Il tuo colore è la tua firma</p>
+          </div>
+        </div>
+        <button class="settings-btn" id="open-settings" aria-label="Impostazioni API">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+            <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/>
+          </svg>
+          API Key
+        </button>
+      </div>
+
+      <div class="seasons-toggle">
+        <button class="seasons-btn" id="toggle-seasons" aria-expanded="false">
+          <span>Scopri le 4 Stagioni Armocromiche</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </button>
+        <div class="seasons-panel hidden" id="seasons-panel">
+          <div class="seasons-grid">
+            <div class="season-card">
+              <div class="season-name">🌸 Primavera</div>
+              <p class="season-desc">Caldi, vivaci, luminosi. Colori freschi con sottotono dorato.</p>
+              <div class="season-swatches">
+                <span class="swatch-circle" style="background:#F4A261"></span>
+                <span class="swatch-circle" style="background:#E76F51"></span>
+                <span class="swatch-circle" style="background:#F7C59F"></span>
+                <span class="swatch-circle" style="background:#90BE6D"></span>
+              </div>
+            </div>
+            <div class="season-card">
+              <div class="season-name">🌊 Estate</div>
+              <p class="season-desc">Freddi, morbidi, nebbiosi. Toni rosati con sottotono argenteo.</p>
+              <div class="season-swatches">
+                <span class="swatch-circle" style="background:#B5B8C8"></span>
+                <span class="swatch-circle" style="background:#A8DADC"></span>
+                <span class="swatch-circle" style="background:#CDB4DB"></span>
+                <span class="swatch-circle" style="background:#F4ACB7"></span>
+              </div>
+            </div>
+            <div class="season-card">
+              <div class="season-name">🍂 Autunno</div>
+              <p class="season-desc">Caldi, profondi, terrosi. Palette ispirata alle foglie d'autunno.</p>
+              <div class="season-swatches">
+                <span class="swatch-circle" style="background:#A0522D"></span>
+                <span class="swatch-circle" style="background:#C68642"></span>
+                <span class="swatch-circle" style="background:#6B3A2A"></span>
+                <span class="swatch-circle" style="background:#4A7C59"></span>
+              </div>
+            </div>
+            <div class="season-card">
+              <div class="season-name">❄️ Inverno</div>
+              <p class="season-desc">Freddi, netti, contrastati. Colori puri con sottotono bluastro.</p>
+              <div class="season-swatches">
+                <span class="swatch-circle" style="background:#1A1A2E"></span>
+                <span class="swatch-circle" style="background:#E63946"></span>
+                <span class="swatch-circle" style="background:#F1FAEE"></span>
+                <span class="swatch-circle" style="background:#457B9D"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-card">
+
+      <section class="upload-section" id="upload-section">
+        <h2 class="section-title">Carica la tua foto</h2>
+        <p class="section-subtitle">Una foto del viso in buona luce, senza trucco pesante, per un'analisi precisa</p>
+        <div class="drop-zone" id="drop-zone" role="button" tabindex="0" aria-label="Zona caricamento foto">
+          <input type="file" id="file-input" accept="image/jpeg,image/png,image/webp" class="visually-hidden" />
+          <div class="drop-zone-content" id="drop-zone-content">
+            <div class="upload-icon">
+              <svg viewBox="0 0 64 64" fill="none">
+                <circle cx="32" cy="32" r="31" stroke="#00B4C4" stroke-width="1.5" stroke-dasharray="4 3"/>
+                <path d="M32 20v16M24 28l8-8 8 8" stroke="#00B4C4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M20 44h24" stroke="#00B4C4" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <p class="drop-title">Trascina la foto qui</p>
+            <p class="drop-subtitle">oppure <span class="drop-link">sfoglia i file</span></p>
+            <p class="drop-hint">JPG, PNG, WEBP · max 5 MB</p>
+          </div>
+          <div class="drop-zone-preview hidden" id="drop-zone-preview">
+            <img id="preview-img" src="" alt="Anteprima foto" />
+            <div class="preview-overlay">
+              <button class="preview-change-btn" id="change-photo-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                  <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+                </svg>
+                Cambia foto
+              </button>
+            </div>
+          </div>
+        </div>
+        <button class="btn-primary btn-analyze" id="analyze-btn" disabled>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          Analizza il mio colore
+        </button>
+      </section>
+
+      <div class="loader-section hidden" id="loader-section">
+        <div class="loader-inner">
+          <div class="shimmer-loader">
+            <div class="shimmer-bar"></div>
+            <div class="shimmer-bar short"></div>
+            <div class="shimmer-bar shorter"></div>
+          </div>
+          <div class="loader-ring"></div>
+          <p class="loader-text">Analizzo i tuoi colori...</p>
+          <p class="loader-sub">L'IA sta esaminando sottotono, occhi e capelli</p>
+        </div>
+      </div>
+
+      <section class="results-section hidden" id="results-section">
+        <div class="result-header">
+          <div class="season-badge-wrap">
+            <div class="season-badge" id="result-season-badge"></div>
+            <div class="undertone-badge" id="result-undertone"></div>
+          </div>
+          <p class="result-description" id="result-description"></p>
+          <div class="characteristics" id="result-characteristics"></div>
+        </div>
+        <div class="result-block">
+          <h3 class="block-title"><span class="block-icon">✦</span>La tua palette ideale</h3>
+          <div class="color-grid" id="result-palette"></div>
+        </div>
+        <div class="result-block">
+          <h3 class="block-title"><span class="block-icon avoid">✕</span>Colori da evitare</h3>
+          <div class="color-grid avoid-grid" id="result-avoid"></div>
+        </div>
+        <div class="result-block">
+          <h3 class="block-title"><span class="block-icon">♦</span>Consigli di stile</h3>
+          <p class="style-advice" id="result-style"></p>
+        </div>
+        <div class="result-block celebrity-block">
+          <h3 class="block-title"><span class="block-icon">★</span>Celebrity della tua stagione</h3>
+          <div class="celebrity-list" id="result-celebrities"></div>
+        </div>
+        <div class="result-actions">
+          <button class="btn-primary btn-download" id="download-palette-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Scarica la tua palette
+          </button>
+          <button class="btn-secondary btn-reset" id="reset-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+              <polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/>
+            </svg>
+            Nuova analisi
+          </button>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="site-footer">
+      <p>Harmonia · Analisi armocromica AI · Powered by Claude</p>
+    </footer>
+  </div>
+
+  <div class="color-tooltip hidden" id="color-tooltip">
+    <div class="tooltip-swatch" id="tooltip-swatch"></div>
+    <div class="tooltip-info">
+      <span class="tooltip-name" id="tooltip-name"></span>
+      <span class="tooltip-hex" id="tooltip-hex"></span>
+      <span class="tooltip-uso" id="tooltip-uso"></span>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toast-container"></div>
+  <canvas id="palette-canvas" style="display:none"></canvas>
+
+  <script src="api.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
