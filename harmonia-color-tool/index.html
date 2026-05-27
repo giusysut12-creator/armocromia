@@ -6,98 +6,53 @@
   <title>Harmonia – Il tuo colore è la tua firma</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
+  <!-- CONFETTI CANVAS -->
   <canvas id="confetti-canvas"></canvas>
 
   <div class="app-container">
 
+    <!-- HEADER / NAV -->
     <header class="site-header">
-      <div class="header-top">
-        <div class="logo-area">
-          <div class="logo-mark">H</div>
-          <div>
-            <h1 class="site-title">Harmonia</h1>
-            <p class="site-tagline">Il tuo colore è la tua firma</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="seasons-toggle">
-        <button class="seasons-btn" id="toggle-seasons" aria-expanded="false">
-          <span>Scopri le 4 Stagioni Armocromiche</span>
-          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
-            <polyline points="6 9 12 15 18 9"/>
-          </svg>
-        </button>
-        <div class="seasons-panel hidden" id="seasons-panel">
-          <div class="seasons-grid">
-            <div class="season-card">
-              <div class="season-name">🌸 Primavera</div>
-              <p class="season-desc">Caldi, vivaci, luminosi. Colori freschi con sottotono dorato.</p>
-              <div class="season-swatches">
-                <span class="swatch-circle" style="background:#F4A261"></span>
-                <span class="swatch-circle" style="background:#E76F51"></span>
-                <span class="swatch-circle" style="background:#F7C59F"></span>
-                <span class="swatch-circle" style="background:#90BE6D"></span>
-              </div>
-            </div>
-            <div class="season-card">
-              <div class="season-name">🌊 Estate</div>
-              <p class="season-desc">Freddi, morbidi, nebbiosi. Toni rosati con sottotono argenteo.</p>
-              <div class="season-swatches">
-                <span class="swatch-circle" style="background:#B5B8C8"></span>
-                <span class="swatch-circle" style="background:#A8DADC"></span>
-                <span class="swatch-circle" style="background:#CDB4DB"></span>
-                <span class="swatch-circle" style="background:#F4ACB7"></span>
-              </div>
-            </div>
-            <div class="season-card">
-              <div class="season-name">🍂 Autunno</div>
-              <p class="season-desc">Caldi, profondi, terrosi. Palette ispirata alle foglie d'autunno.</p>
-              <div class="season-swatches">
-                <span class="swatch-circle" style="background:#A0522D"></span>
-                <span class="swatch-circle" style="background:#C68642"></span>
-                <span class="swatch-circle" style="background:#6B3A2A"></span>
-                <span class="swatch-circle" style="background:#4A7C59"></span>
-              </div>
-            </div>
-            <div class="season-card">
-              <div class="season-name">❄️ Inverno</div>
-              <p class="season-desc">Freddi, netti, contrastati. Colori puri con sottotono bluastro.</p>
-              <div class="season-swatches">
-                <span class="swatch-circle" style="background:#1A1A2E"></span>
-                <span class="swatch-circle" style="background:#E63946"></span>
-                <span class="swatch-circle" style="background:#F1FAEE"></span>
-                <span class="swatch-circle" style="background:#457B9D"></span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <span class="brand-name">Harmonia</span>
+      <p class="brand-tagline">Il tuo colore è la tua firma</p>
     </header>
 
-    <main class="main-card">
+    <!-- HERO + TOOL AREA -->
+    <section class="hero-section">
+      <div class="hero-deco deco-a"></div>
+      <div class="hero-deco deco-b"></div>
+      <div class="hero-deco deco-c"></div>
+      <div class="hero-deco deco-d"></div>
 
+      <div class="hero-content">
+        <div class="dark-pill hero-pill">Analisi armocromica · AI powered</div>
+        <h1 class="hero-title">
+          <em>Scopri il tuo</em>
+          colore ideale
+        </h1>
+        <p class="hero-subtitle">Una foto del viso in buona luce, senza trucco pesante, per un'analisi precisa</p>
+      </div>
+
+      <!-- UPLOAD SECTION -->
       <section class="upload-section" id="upload-section">
-        <h2 class="section-title">Carica la tua foto</h2>
-        <p class="section-subtitle">Una foto del viso in buona luce, senza trucco pesante, per un'analisi precisa</p>
         <div class="drop-zone" id="drop-zone" role="button" tabindex="0" aria-label="Zona caricamento foto">
           <input type="file" id="file-input" accept="image/jpeg,image/png,image/webp" class="visually-hidden" />
           <div class="drop-zone-content" id="drop-zone-content">
             <div class="upload-icon">
-              <svg viewBox="0 0 64 64" fill="none">
-                <circle cx="32" cy="32" r="31" stroke="#00B4C4" stroke-width="1.5" stroke-dasharray="4 3"/>
-                <path d="M32 20v16M24 28l8-8 8 8" stroke="#00B4C4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M20 44h24" stroke="#00B4C4" stroke-width="2" stroke-linecap="round"/>
+              <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="32" cy="32" r="31" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.4"/>
+                <path d="M32 20v16M24 28l8-8 8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M20 44h24" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
               </svg>
             </div>
-            <p class="drop-title">Trascina la foto qui</p>
+            <p class="drop-title">Trascina la tua foto qui</p>
             <p class="drop-subtitle">oppure <span class="drop-link">sfoglia i file</span></p>
-            <p class="drop-hint">JPG, PNG, WEBP · max 5 MB</p>
+            <div class="dark-pill drop-hint-pill">JPG · PNG · WEBP · max 5 MB</div>
           </div>
           <div class="drop-zone-preview hidden" id="drop-zone-preview">
             <img id="preview-img" src="" alt="Anteprima foto" />
@@ -111,6 +66,7 @@
             </div>
           </div>
         </div>
+
         <button class="btn-primary btn-analyze" id="analyze-btn" disabled>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
             <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
@@ -119,67 +75,146 @@
         </button>
       </section>
 
+      <!-- LOADER -->
       <div class="loader-section hidden" id="loader-section">
         <div class="loader-inner">
+          <div class="loader-dots">
+            <div class="ldot d1"></div>
+            <div class="ldot d2"></div>
+            <div class="ldot d3"></div>
+          </div>
           <div class="shimmer-loader">
             <div class="shimmer-bar"></div>
             <div class="shimmer-bar short"></div>
             <div class="shimmer-bar shorter"></div>
           </div>
-          <div class="loader-ring"></div>
-          <p class="loader-text">Analizzo i tuoi colori...</p>
+          <p class="loader-text"><em>Analizzo i tuoi colori...</em></p>
           <p class="loader-sub">L'IA sta esaminando sottotono, occhi e capelli</p>
         </div>
       </div>
 
-      <section class="results-section hidden" id="results-section">
-        <div class="result-header">
-          <div class="season-badge-wrap">
-            <div class="season-badge" id="result-season-badge"></div>
-            <div class="undertone-badge" id="result-undertone"></div>
+    </section>
+
+    <!-- RESULTS SECTION -->
+    <section class="results-section hidden" id="results-section">
+
+      <div class="result-header">
+        <div class="season-badge-wrap">
+          <div class="season-badge dark-pill" id="result-season-badge">Autunno Caldo</div>
+          <div class="undertone-badge" id="result-undertone">Sottotono Caldo</div>
+        </div>
+        <p class="result-description" id="result-description">Descrizione della stagione...</p>
+        <div class="characteristics" id="result-characteristics"></div>
+      </div>
+
+      <div class="result-block" id="result-palette-block">
+        <h3 class="block-title"><em>La tua palette ideale</em></h3>
+        <div class="color-grid" id="result-palette"></div>
+      </div>
+
+      <div class="result-block" id="result-avoid-block">
+        <h3 class="block-title block-title--avoid">Colori da <em>evitare</em></h3>
+        <div class="color-grid avoid-grid" id="result-avoid"></div>
+      </div>
+
+      <div class="result-block" id="result-style-block">
+        <h3 class="block-title"><em>Consigli di stile</em></h3>
+        <p class="style-advice" id="result-style"></p>
+      </div>
+
+      <div class="result-block celebrity-block" id="result-celebrity-block">
+        <h3 class="block-title">Celebrity della tua <em>stagione</em></h3>
+        <div class="celebrity-list" id="result-celebrities"></div>
+      </div>
+
+      <div class="result-actions">
+        <button class="btn-primary btn-download" id="download-palette-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Scarica la tua palette
+        </button>
+        <button class="btn-secondary btn-reset" id="reset-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+            <polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/>
+          </svg>
+          Nuova analisi
+        </button>
+      </div>
+    </section>
+
+    <!-- LE 4 STAGIONI -->
+    <section class="seasons-section">
+      <div class="seasons-toggle">
+        <button class="seasons-btn" id="toggle-seasons" aria-expanded="false">
+          <span>Le <em>4 Stagioni</em> Armocromiche</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </button>
+        <div class="seasons-panel hidden" id="seasons-panel">
+          <div class="seasons-grid">
+            <div class="season-card season-spring">
+              <div class="season-arch-bar">
+                <span style="background:#F4A261"></span>
+                <span style="background:#E76F51"></span>
+                <span style="background:#F7C59F"></span>
+                <span style="background:#90BE6D"></span>
+              </div>
+              <div class="season-body">
+                <div class="season-name">🌸 Primavera</div>
+                <p class="season-desc">Caldi, vivaci, luminosi. Colori freschi con sottotono dorato.</p>
+              </div>
+            </div>
+            <div class="season-card season-summer">
+              <div class="season-arch-bar">
+                <span style="background:#B5B8C8"></span>
+                <span style="background:#A8DADC"></span>
+                <span style="background:#CDB4DB"></span>
+                <span style="background:#F4ACB7"></span>
+              </div>
+              <div class="season-body">
+                <div class="season-name">🌊 Estate</div>
+                <p class="season-desc">Freddi, morbidi, nebbiosi. Toni rosati con sottotono argenteo.</p>
+              </div>
+            </div>
+            <div class="season-card season-autumn">
+              <div class="season-arch-bar">
+                <span style="background:#A0522D"></span>
+                <span style="background:#C68642"></span>
+                <span style="background:#6B3A2A"></span>
+                <span style="background:#4A7C59"></span>
+              </div>
+              <div class="season-body">
+                <div class="season-name">🍂 Autunno</div>
+                <p class="season-desc">Caldi, profondi, terrosi. Palette ispirata alle foglie d'autunno.</p>
+              </div>
+            </div>
+            <div class="season-card season-winter">
+              <div class="season-arch-bar">
+                <span style="background:#1A1A2E"></span>
+                <span style="background:#E63946"></span>
+                <span style="background:#F1FAEE"></span>
+                <span style="background:#457B9D"></span>
+              </div>
+              <div class="season-body">
+                <div class="season-name">❄️ Inverno</div>
+                <p class="season-desc">Freddi, netti, contrastati. Colori puri con sottotono bluastro.</p>
+              </div>
+            </div>
           </div>
-          <p class="result-description" id="result-description"></p>
-          <div class="characteristics" id="result-characteristics"></div>
         </div>
-        <div class="result-block">
-          <h3 class="block-title"><span class="block-icon">✦</span>La tua palette ideale</h3>
-          <div class="color-grid" id="result-palette"></div>
-        </div>
-        <div class="result-block">
-          <h3 class="block-title"><span class="block-icon avoid">✕</span>Colori da evitare</h3>
-          <div class="color-grid avoid-grid" id="result-avoid"></div>
-        </div>
-        <div class="result-block">
-          <h3 class="block-title"><span class="block-icon">♦</span>Consigli di stile</h3>
-          <p class="style-advice" id="result-style"></p>
-        </div>
-        <div class="result-block celebrity-block">
-          <h3 class="block-title"><span class="block-icon">★</span>Celebrity della tua stagione</h3>
-          <div class="celebrity-list" id="result-celebrities"></div>
-        </div>
-        <div class="result-actions">
-          <button class="btn-primary btn-download" id="download-palette-btn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
-              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
-            </svg>
-            Scarica la tua palette
-          </button>
-          <button class="btn-secondary btn-reset" id="reset-btn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
-              <polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/>
-            </svg>
-            Nuova analisi
-          </button>
-        </div>
-      </section>
+      </div>
+    </section>
 
-    </main>
-
+    <!-- FOOTER -->
     <footer class="site-footer">
       <p>Harmonia · Analisi armocromica AI · Powered by Claude</p>
     </footer>
+
   </div>
 
+  <!-- TOOLTIP -->
   <div class="color-tooltip hidden" id="color-tooltip">
     <div class="tooltip-swatch" id="tooltip-swatch"></div>
     <div class="tooltip-info">
@@ -189,7 +224,10 @@
     </div>
   </div>
 
+  <!-- TOAST -->
   <div class="toast-container" id="toast-container"></div>
+
+  <!-- HIDDEN CANVAS FOR DOWNLOAD -->
   <canvas id="palette-canvas" style="display:none"></canvas>
 
   <script src="api.js"></script>
